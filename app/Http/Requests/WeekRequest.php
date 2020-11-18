@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ResultRequest extends FormRequest
+class WeekRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,7 @@ class ResultRequest extends FormRequest
     public function rules()
     {
         return [
-            'homeTeam' => 'required|exists:teams,id',
-            'awayTeam' => 'required|exists:teams,id',
+            'weeks.*' => 'required|between:1,6'
         ];
     }
 }

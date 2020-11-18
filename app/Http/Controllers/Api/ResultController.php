@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ResultRequest;
+use App\Http\Requests\WeekRequest;
 use App\Models\Result;
 use App\Services\MatchResult;
 use App\Services\SeasonDrawService;
@@ -33,10 +34,8 @@ class ResultController extends Controller
         return response()->json(['message' => 'New season has been created.'], Response::HTTP_CREATED);
     }
 
-    public function calcMatch(ResultRequest $request)
+    public function calcMatch(WeekRequest $request)
     {
-        $this->matchResult->setTeams($request->get('homeTeam'), $request->get('awayTeam'));
-
-        return response($this->matchResult->calcResult(), Response::HTTP_CREATED);
+        return response($this->matchResult->calcForWeeks($request->get('weeks')), Response::HTTP_CREATED);
     }
 }

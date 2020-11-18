@@ -30,4 +30,4 @@ fi ;
 ADD php.ini /usr/local/etc/php/php.ini
 ADD xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
-CMD php artisan serve --host=0.0.0.0 --port=$APP_PORT
+CMD php artisan serve --host=0.0.0.0:8000

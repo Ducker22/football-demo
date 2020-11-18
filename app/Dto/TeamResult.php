@@ -28,6 +28,11 @@ class TeamResult
         ];
     }
 
+    public function getTeamId(): int
+    {
+        return $this->teamId;
+    }
+
     private function isWin(): int
     {
         return $this->scored > $this->missed;

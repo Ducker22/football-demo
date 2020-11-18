@@ -34,9 +34,10 @@ class PlainGen implements ResultGenerator
         ];
     }
 
-    private function goalRandomize(int &$scoredA, int &$scoredB, bool $isDraw = false): void
+    private function goalRandomize(&$scoredA, &$scoredB, bool $isDraw = false): void
     {
-        $scoredA = random_int(1, 5);
+        $min = $isDraw ? 0 : 1;
+        $scoredA = random_int($min, 5);
         $scoredB = $isDraw ? $scoredA : random_int(0, $scoredA - 1);
     }
 }

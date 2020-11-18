@@ -35,12 +35,12 @@ class CreateFootballTables extends Migration
         Schema::create('ranks', function (Blueprint $table) {
             $table->id();
             $table->unsignedInteger('team_id');
-            $table->unsignedSmallInteger('game_played');
-            $table->unsignedSmallInteger('win');
-            $table->unsignedSmallInteger('loss');
-            $table->unsignedSmallInteger('draw');
-            $table->unsignedSmallInteger('points');
-            $table->unsignedSmallInteger('goal_diff');
+            $table->unsignedSmallInteger('game_played')->default(0);
+            $table->unsignedSmallInteger('win')->default(0);
+            $table->unsignedSmallInteger('loss')->default(0);
+            $table->unsignedSmallInteger('draw')->default(0);
+            $table->unsignedSmallInteger('points')->default(0);
+            $table->unsignedSmallInteger('goal_diff')->default(0);
 
             $table->foreign('team_id')->references('id')->on('teams')->onDelete('CASCADE');
         });

@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Contracts\SeasonDraw;
 use App\Models\Rank;
 use App\Models\Result;
+use App\Models\Team;
 use App\Services\SeasonDraw\StabSeasonDraw;
 use Illuminate\Support\Collection;
 
@@ -23,6 +24,11 @@ class SeasonDrawService
     {
         Result::query()->truncate();
         Rank::query()->truncate();
+
+        $teams = Team::query()->get();
+        foreach ($teams as $team) {
+            Rank::query()->insert(['team_id' => $team->id]);
+        }
 
         $currentSeason = [];
         foreach ($this->drawer->generate() as $seasonWeek => $matches) {
