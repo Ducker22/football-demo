@@ -7,3 +7,17 @@ services:
     working_dir: /var/www/html
     tty: true
 
+  php:
+    build:
+      context: docker/php
+      args:
+        DOCKER_USER: ${CURRENT_UID}
+    user: ${CURRENT_UID}
+    volumes:
+      - ./:/var/www/html
+    environment:
+      XDEBUG_CONFIG: remote_host=${XDEBUG_HOST} remote_enable=1 remote_port=9001 idekey=PHPSTORM
+    working_dir: /var/www/html
+#    command: 'php artisan serve --host=0.0.0.0'
+    ports:
+      - "8000:8000"

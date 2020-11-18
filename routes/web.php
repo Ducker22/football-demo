@@ -2,13 +2,23 @@
 
 use App\Dto\TeamResult;
 use App\Http\Controllers\PagesController;
+use App\Services\SeasonDrawService;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/{any?}', [PagesController::class, 'index']);
+Route::get('test', function () {
 
-Route::get('/', function () {
 
-    $teams = [1, 2, 3, 4];
+    $test = new SeasonDrawService();
+    $test->drawSeason();
+
+    dd(1);
+
+    $teams = collect([
+        [1, 2],
+        [3, 4]
+    ]);
+
+    dd($teams->flatten());
 
     function matchRes($teamHome, $teamAway)
     {
@@ -28,3 +38,5 @@ Route::get('/', function () {
 
 //    return view('welcome');
 });
+
+Route::get('/{any?}', [PagesController::class, 'index']);
