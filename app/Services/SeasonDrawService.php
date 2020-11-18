@@ -25,10 +25,10 @@ class SeasonDrawService
         Result::query()->truncate();
         Rank::query()->truncate();
 
-        $teams = Team::query()->get();
-        foreach ($teams as $team) {
-            Rank::query()->insert(['team_id' => $team->id]);
-        }
+//        $teams = Team::query()->get();
+//        foreach ($teams as $team) {
+//            Rank::query()->insert(['team_id' => $team->id]);
+//        }
 
         $currentSeason = [];
         foreach ($this->drawer->generate() as $seasonWeek => $matches) {

@@ -18,13 +18,13 @@ class TeamResult
     public function fullStatTransform(): array
     {
         return [
-            'teamId' => $this->teamId,
-            'gamePlayed' => 1,
+            'team_id' => $this->teamId,
+            'game_played' => 1,
             'win' => $this->isWin(),
             'loss' => $this->isLoss(),
             'draw' => $this->isDraw(),
             'points' => $this->calcPoints(),
-            'goalDiff' => $this->calcGoalDiff(),
+            'goal_diff' => $this->calcGoalDiff(),
         ];
     }
 

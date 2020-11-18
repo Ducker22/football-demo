@@ -21,7 +21,7 @@ class PlainGen implements ResultGenerator
         }
 
         if ($rnd > self::HOME_TEAM_WIN_CHANCE && $rnd <= self::HOME_TEAM_WIN_CHANCE + self::AWAY_TEAM_WIN_CHANCE) {
-            $this->goalRandomize($this->homeTeamScored, $this->awayTeamScored);
+            $this->goalRandomize($this->awayTeamScored, $this->homeTeamScored);
         }
 
         if ($rnd > self::HOME_TEAM_WIN_CHANCE + self::AWAY_TEAM_WIN_CHANCE) {

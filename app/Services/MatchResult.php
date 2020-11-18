@@ -7,7 +7,7 @@ use App\Dto\TeamResult;
 use App\Models\Rank;
 use App\Models\Result;
 use App\Services\ResultGens\PlainGen;
-use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Collection;
 use Webmozart\Assert\Assert;
 
 class MatchResult
@@ -23,9 +23,9 @@ class MatchResult
 
     /**
      * @param int|array $weeks
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @return Collection
      */
-    public function calcForWeeks($weeks): \Illuminate\Database\Eloquent\Collection
+    public function calcForWeeks($weeks): Collection
     {
         $weeks = collect($weeks);
 
@@ -42,7 +42,7 @@ class MatchResult
         return Result::query()->whereIn('week', $weeks)->get();
     }
 
-    public function calcResult()
+    private function calcResult()
     {
         Assert::notEmpty($this->teamHome,'Home team must be set.');
         Assert::notEmpty($this->teamAway,'Away team must be set.');
@@ -57,16 +57,18 @@ class MatchResult
 
         //todo: to the repository
         foreach ($result as $teamPlayed) {
-            $ladderRaw = Rank::query()->where('team_id', $teamPlayed['teamId'])->first();
+            $ladderRaw = Rank::query()->where('team_id', $teamPlayed['team_id'])->first();
 
-            $ladderRaw->game_played = $ladderRaw->game_played + $teamPlayed['gamePlayed'];
+            $ladderRaw->game_played = $ladderRaw->game_played + $teamPlayed['game_played'];
             $ladderRaw->win = $ladderRaw->win + $teamPlayed['win'];
             $ladderRaw->loss = $ladderRaw->loss + $teamPlayed['loss'];
             $ladderRaw->draw = $ladderRaw->draw + $teamPlayed['draw'];
             $ladderRaw->points = $ladderRaw->points + $teamPlayed['points'];
-            $ladderRaw->goal_diff = $ladderRaw->goal_diff + $teamPlayed['goalDiff'];
+            $ladderRaw->goal_diff = $ladderRaw->goal_diff + $teamPlayed['goal_diff'];
 
             $ladderRaw->save();
+
+//            Rank::query()->insert($teamPlayed);
         }
 
         return [
@@ -75,7 +77,7 @@ class MatchResult
         ];
     }
 
-    public function setTeams(int $teamHome, int $teamAway): self
+    private function setTeams(int $teamHome, int $teamAway): self
     {
         Assert::notEq($teamHome, $teamAway, 'Teams must not be equal.');
 
