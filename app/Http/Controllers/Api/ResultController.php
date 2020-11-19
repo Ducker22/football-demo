@@ -24,7 +24,10 @@ class ResultController extends Controller
 
     public function index()
     {
-        return Result::query()->get()->groupBy('week');
+        return Result::query()
+            ->with(['homeTeam', 'awayTeam'])
+            ->get()
+            ->groupBy('week');
     }
 
     public function draw()
