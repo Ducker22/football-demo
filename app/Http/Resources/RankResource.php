@@ -17,6 +17,7 @@ class RankResource extends JsonResource
         return [
             'team_id' => $this->team_id,
             'game_played' => $this->game_played,
+            'points' => $this->points,
             'win' => $this->win,
             'loss' => $this->loss,
             'draw' => $this->draw,
