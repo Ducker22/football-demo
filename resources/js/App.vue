@@ -10,7 +10,7 @@
         @next-week="calcNextResult"
         @till-end="calcNextResult(true)"
       />
-      <prediction/>
+      <prediction :predicts="predicts" :can-show="canPredict"/>
     </div>
     <div class="row justify-content-center mt-5 mb-2">
       <match-results :results="results"/>
@@ -30,6 +30,7 @@ export default {
     currentWeek: 0,
     leagueTable: [],
     results: {},
+    predicts: [],
   }),
   methods: {
 
@@ -54,6 +55,15 @@ export default {
           this.results = data
         })
     },
+    fetchPredict() {
+      if (!this.canPredict) {
+        return
+      }
+      axios.get('api/v1/predict')
+        .then(({ data }) => {
+          this.predicts = data
+        })
+    },
 
     calcNextResult(toEnd = false) {
       if (this.currentWeek >= 6) {
@@ -67,6 +77,7 @@ export default {
           this.fetchResults()
           this.fetchLeagueTable()
           this.currentWeek = toEnd ? 6 : ++this.currentWeek
+          this.fetchPredict()
         })
     },
   },
@@ -77,6 +88,9 @@ export default {
         res.push(i)
       }
       return res
+    },
+    canPredict() {
+      return this.currentWeek >= 3 && this.currentWeek < 6
     },
   },
   mounted() {
