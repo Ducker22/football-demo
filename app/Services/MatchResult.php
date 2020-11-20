@@ -2,23 +2,35 @@
 
 namespace App\Services;
 
+use App\Contracts\PersistContract;
 use App\Contracts\ResultGenerator;
 use App\Dto\TeamResult;
 use App\Models\Rank;
 use App\Models\Result;
+use App\Repositories\DbPersist;
 use App\Services\ResultGens\PlainGen;
 use Illuminate\Database\Eloquent\Collection;
 use Webmozart\Assert\Assert;
 
 class MatchResult
 {
-    private $generator;
     private $teamHome;
     private $teamAway;
 
-    public function __construct(ResultGenerator $generator = null)
+    private $generator;
+    private $persister;
+
+    public function __construct(ResultGenerator $generator = null, PersistContract $persister = null)
     {
         $this->generator = $generator ?? new PlainGen();
+        $this->persister = $persister ?? new DbPersist();
+    }
+
+    public function setPersister(PersistContract $persister): self
+    {
+        $this->persister = $persister;
+
+        return $this;
     }
 
     /**
@@ -39,7 +51,7 @@ class MatchResult
             });
         }
 
-        return Result::query()->whereIn('week', $weeks)->get();
+        return $this->persister->getMatchResult($weeks);
     }
 
     private function calcResult()
@@ -55,20 +67,8 @@ class MatchResult
         $result[] = (new TeamResult($this->teamHome, $teamHomeScored, $teamAwayScored))->fullStatTransform();
         $result[] = (new TeamResult($this->teamAway, $teamAwayScored, $teamHomeScored))->fullStatTransform();
 
-        //todo: to the repository
         foreach ($result as $teamPlayed) {
-            $ladderRaw = Rank::query()->where('team_id', $teamPlayed['team_id'])->first();
-
-            $ladderRaw->game_played = $ladderRaw->game_played + $teamPlayed['game_played'];
-            $ladderRaw->win = $ladderRaw->win + $teamPlayed['win'];
-            $ladderRaw->loss = $ladderRaw->loss + $teamPlayed['loss'];
-            $ladderRaw->draw = $ladderRaw->draw + $teamPlayed['draw'];
-            $ladderRaw->points = $ladderRaw->points + $teamPlayed['points'];
-            $ladderRaw->goal_diff = $ladderRaw->goal_diff + $teamPlayed['goal_diff'];
-
-            $ladderRaw->save();
-
-//            Rank::query()->insert($teamPlayed);
+            $this->persister->saveRank($teamPlayed);
         }
 
         return [
@@ -91,10 +91,7 @@ class MatchResult
     {
         $this->setTeams($result->home_team_id, $result->away_team_id);
 
-        $tmp = $this->calcResult();
-        $result->home_team_scored = $tmp['homeScored'];
-        $result->away_team_scored = $tmp['awayScored'];
-        $result->save();
+        $this->persister->saveMatchResult($result, $this->calcResult());
 
         return $result;
     }

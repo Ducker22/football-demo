@@ -15,4 +15,5 @@ Route::group(['prefix' => 'v1'], function() {
     Route::get('ranks', [RankController::class, 'index']);
 
     Route::get('predict', [PredictController::class, 'index']);
+    Route::get('predict2', [PredictController::class, 'test']);
 });

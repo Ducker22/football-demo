@@ -69,8 +69,13 @@ class CreateFootballTables extends Migration
             'Liverpool',
         ];
 
+        $i = 1;
         foreach ($teams as $team) {
-            Team::create(['name' => $team]);
+            Team::create([
+                'name' => $team,
+                'logo' => "img/team${i}.png"
+            ]);
+            $i++;
         }
     }
 }

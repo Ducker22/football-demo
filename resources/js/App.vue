@@ -90,7 +90,7 @@ export default {
       return res
     },
     canPredict() {
-      return this.currentWeek >= 3 && this.currentWeek < 6
+      return this.currentWeek >= 4 && this.currentWeek < 6
     },
   },
   mounted() {

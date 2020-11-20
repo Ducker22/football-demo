@@ -5,8 +5,8 @@
 
       <div class="card-body">
 
-        <div class="m-2 p-1" v-if="canShow">
-          <p class="text-center"></p>
+        <div class="m-1 p-1" v-if="canShow">
+          <p class="text-center">Prediction of Championship</p>
           <div class="row d-flex pr-2 pl-2" v-for="row in predicts" :key="row.id">
             <div class="p-2 flex-item"><img src="" alt=""></div>
             <div class="p-2 flex-item"><h5>{{ row.name }}</h5></div>

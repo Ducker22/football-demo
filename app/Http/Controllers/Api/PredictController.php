@@ -19,4 +19,9 @@ class PredictController extends Controller
     {
         return $this->predictService->predict();
     }
+
+    public function test()
+    {
+        return $this->predictService->test();
+    }
 }
