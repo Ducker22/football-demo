@@ -5,11 +5,10 @@ namespace App\Services;
 use App\Contracts\PersistContract;
 use App\Contracts\ResultGenerator;
 use App\Dto\TeamResult;
-use App\Models\Rank;
 use App\Models\Result;
 use App\Repositories\DbPersist;
 use App\Services\ResultGens\PlainGen;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Collection;
 use Webmozart\Assert\Assert;
 
 class MatchResult

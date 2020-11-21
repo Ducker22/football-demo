@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Contracts\PredictContract;
-use App\Models\Team;
 use App\Services\Predictors\MonteCarloPredictor;
 
 class PredictService
@@ -17,11 +16,7 @@ class PredictService
 
     public function predict()
     {
-        $result = Team::query()->get()->each(function(Team $team) {
-            $team->chance = 25;
-        });
-
-        return $result;
+        return $this->predictor->predict();
     }
 
     public function test()
