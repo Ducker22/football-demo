@@ -1,9 +1,9 @@
 <template>
   <div class="m-1 match-result">
     <div class="row d-flex pr-2 pl-2 clickable-item" @click="handleEdit">
-      <h5 class="p-1 flex-item">{{ match.home_team.name }}</h5>
+      <h5 class="p-1 flex-item"><img :src="match.home_team.logo" alt="">  {{ match.home_team.name }}</h5>
       <h4 class="p-1 text-lg-center flex-item">{{ match.home_team_scored }} : {{ match.away_team_scored }}</h4>
-      <h5 class="p-1 text-right flex-item">{{ match.away_team.name }}</h5>
+      <h5 class="p-1 text-right flex-item">{{ match.away_team.name }}  <img :src="match.away_team.logo" alt=""></h5>
     </div>
 
     <template v-if="canEdit">

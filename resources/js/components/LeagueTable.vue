@@ -16,17 +16,17 @@
             <th scope="col">GD</th>
           </tr>
           </thead>
-          <tbody>
-          <tr v-for="row in leagueTable" :key="row.team_id">
-            <th scope="row">{{ row.team_name }}</th>
-            <td>{{ row.points }}</td>
-            <td>{{ row.game_played }}</td>
-            <td>{{ row.win }}</td>
-            <td>{{ row.draw }}</td>
-            <td>{{ row.loss }}</td>
-            <td>{{ row.goal_diff }}</td>
-          </tr>
-          </tbody>
+          <transition-group name="flip-list" tag="tbody">
+            <tr v-for="row in leagueTable" :key="row.team_id">
+              <th scope="row"><img :src="row.team_logo" alt="">  {{ row.team_name }}</th>
+              <td>{{ row.points }}</td>
+              <td>{{ row.game_played }}</td>
+              <td>{{ row.win }}</td>
+              <td>{{ row.draw }}</td>
+              <td>{{ row.loss }}</td>
+              <td>{{ row.goal_diff }}</td>
+            </tr>
+          </transition-group>
         </table>
 
         <div class="row justify-content-between p-1 m-2">
@@ -66,3 +66,8 @@ export default {
   }
 }
 </script>
+<style scoped>
+  .flip-list-move {
+    transition: transform .8s;
+  }
+</style>

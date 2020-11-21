@@ -1,21 +1,31 @@
 <template>
-  <main class="container">
-    <div class="row justify-content-center mt-5">
-      <button class="btn btn-lg btn-success" @click="startNewSeason">Start New Season</button>
-    </div>
-    <div class="row justify-content-center mt-5">
-      <league-table
-        :league-table="leagueTable"
-        :current-week="currentWeek"
-        @next-week="calcNextResult"
-        @till-end="calcNextResult(true)"
-      />
-      <prediction :predicts="predicts" :can-show="canPredict" :current-week="currentWeek"/>
-    </div>
-    <div class="row justify-content-center mt-5 mb-2">
-      <match-results :results="results"/>
-    </div>
-  </main>
+  <div>
+    <main class="container">
+      <div class="row justify-content-center mt-5">
+        <button class="btn btn-lg btn-success" @click="startNewSeason">Start New Season</button>
+      </div>
+      <div class="row justify-content-center mt-5">
+        <league-table
+          :league-table="leagueTable"
+          :current-week="currentWeek"
+          @next-week="calcNextResult"
+          @till-end="calcNextResult(true)"
+        />
+        <prediction :predicts="predicts" :can-show="canPredict" :current-week="currentWeek"/>
+      </div>
+      <div class="row justify-content-center mt-5 mb-2">
+        <match-results :results="results"/>
+      </div>
+    </main>
+
+    <footer class="pt-4 my-md-5 pt-md-5 border-top">
+      <div class="row justify-content-center">
+          <a href="https://github.com/Ducker22/football-demo"><img src="/img/GitHub.png" alt=""> </a>
+          <small class="d-block mb-3 text-muted">&copy; 2020 by Yevhen Kurguzov</small>
+      </div>
+    </footer>
+
+  </div>
 </template>
 
 <script>

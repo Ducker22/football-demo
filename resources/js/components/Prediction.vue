@@ -41,7 +41,7 @@ export default {
   },
   computed: {
     noDataTitle() {
-      return this.currentWeek < 6 ? 'Not enough data for analyze.' : 'The season is over.'
+      return this.currentWeek < 6 ? 'Not enough data to analyze.' : 'The season is over.'
     },
   },
 }
