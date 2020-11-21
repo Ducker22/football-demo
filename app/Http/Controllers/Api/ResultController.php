@@ -3,12 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ResultRequest;
+use App\Http\Requests\EditResultRequest;
 use App\Http\Requests\WeekRequest;
 use App\Models\Result;
 use App\Services\MatchResult;
 use App\Services\SeasonDrawService;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class ResultController extends Controller
@@ -40,5 +39,13 @@ class ResultController extends Controller
     public function calcMatch(WeekRequest $request)
     {
         return response($this->matchResult->calcForWeeks($request->get('weeks')), Response::HTTP_CREATED);
+    }
+
+    public function edit(EditResultRequest $request, $id)
+    {
+        $oldResult = Result::query()->findOrFail($id);
+        $newResult = $request->only(['homeScored', 'awayScored']);
+
+        return $this->matchResult->editMatch($oldResult, $newResult);
     }
 }

@@ -38,17 +38,9 @@ class ShadowRank
     {
         $clone = $this->cloneRank;
 
-//        $points  = array_column($clone, 'points');
-//        $goalDiff  = array_column($clone, 'goal_diff');
-//        $wins  = array_column($clone, 'win');
-//        $teamIds  = array_column($clone, 'team_id');
-
         usort($clone, function($a, $b) {
             return [$b['points'], $b['goal_diff'], $b['win']] <=> [$a['points'], $a['goal_diff'], $a['win']];
         });
-
-//        array_multisort($points, SORT_DESC, $goalDiff, SORT_DESC, $clone);
-//        array_multisort($wins, SORT_DESC, $teamIds, SORT_DESC, $clone);
 
         return $clone[0];
     }

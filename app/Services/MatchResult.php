@@ -53,6 +53,30 @@ class MatchResult
         return $this->persister->getMatchResult($weeks);
     }
 
+    public function editMatch($result, $newResult)
+    {
+        $revertResult[] = (new TeamResult($result->home_team_id, $result->home_team_scored, $result->away_team_scored))->fullStatTransform();
+        $revertResult[] = (new TeamResult($result->away_team_id, $result->away_team_scored, $result->home_team_scored))->fullStatTransform();
+
+        $flushResult[] = (new TeamResult($result->home_team_id, $newResult['homeScored'], $newResult['awayScored']))->fullStatTransform();
+        $flushResult[] = (new TeamResult($result->away_team_id, $newResult['awayScored'], $newResult['homeScored']))->fullStatTransform();
+
+        foreach ($revertResult as $teamPlayed) {
+            $this->persister->saveRank($teamPlayed, true);
+        }
+
+        foreach ($flushResult as $teamPlayed) {
+            $this->persister->saveRank($teamPlayed);
+        }
+
+        $this->persister->saveMatchResult($result, [
+            'homeScored' => $newResult['homeScored'],
+            'awayScored' => $newResult['awayScored'],
+        ]);
+
+        return $result;
+    }
+
     private function calcResult()
     {
         Assert::notEmpty($this->teamHome,'Home team must be set.');

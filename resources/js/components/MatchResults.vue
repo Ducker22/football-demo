@@ -1,7 +1,7 @@
 <template>
   <div class="col-md-6">
     <div class="card">
-      <div class="card-header">Match Results</div>
+      <div class="card-header">Match Results (click score to edit)</div>
       <div class="card-body">
         <week-results v-for="(result, index) in results" :key="index" :result="result"/>
       </div>

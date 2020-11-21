@@ -21,6 +21,6 @@ class PredictService
 
     public function test()
     {
-        return $this->predictor->test();
+        return $this->predictor->predict();
     }
 }

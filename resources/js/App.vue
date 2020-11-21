@@ -10,7 +10,7 @@
         @next-week="calcNextResult"
         @till-end="calcNextResult(true)"
       />
-      <prediction :predicts="predicts" :can-show="canPredict"/>
+      <prediction :predicts="predicts" :can-show="canPredict" :current-week="currentWeek"/>
     </div>
     <div class="row justify-content-center mt-5 mb-2">
       <match-results :results="results"/>
@@ -19,9 +19,10 @@
 </template>
 
 <script>
-import LeagueTable from "./components/LeagueTable";
-import Prediction from "./components/Prediction";
-import MatchResults from "./components/MatchResults";
+import LeagueTable from "./components/LeagueTable"
+import Prediction from "./components/Prediction"
+import MatchResults from "./components/MatchResults"
+import EventBus from "./plugins/event-bus"
 
 export default {
   name: "App",
@@ -53,6 +54,17 @@ export default {
       axios.get('api/v1/results')
         .then(({ data }) => {
           this.results = data
+        })
+    },
+    patchResult(payload) {
+      axios.patch('api/v1/results/' + payload.id, payload)
+        .then(() => {
+          this.fetchLeagueTable()
+          this.fetchResults()
+          this.fetchPredict()
+        })
+        .catch((err) => {
+          console.log(err)
         })
     },
     fetchPredict() {
@@ -94,7 +106,14 @@ export default {
     },
   },
   mounted() {
-    // this.startNewSeason()
+    EventBus.$on('resultChanged', (payload) => {
+      this.patchResult(payload)
+    });
+
+    this.startNewSeason()
+  },
+  beforeDestroy() {
+    EventBus.$off('resultChanged')
   }
 }
 </script>

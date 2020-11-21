@@ -9,6 +9,7 @@ Route::group(['prefix' => 'v1'], function() {
 
     Route::get('results', [ResultController::class, 'index']);
     Route::post('results', [ResultController::class, 'calcMatch']);
+    Route::patch('results/{id}', [ResultController::class, 'edit']);
 
     Route::post('reset', [ResultController::class, 'draw']);
 

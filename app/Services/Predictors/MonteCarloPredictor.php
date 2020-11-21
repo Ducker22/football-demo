@@ -46,23 +46,6 @@ class MonteCarloPredictor implements PredictContract
         });
     }
 
-    public function test()
-    {
-        $sliceRank = $this->sliceRank();
-        $weeks = $this->unPlayedWeeks();
-
-        foreach (range(1, self::SIMULATIONS_NUMBER) as $sim) {
-
-            $this->shadow->setClone($sliceRank);
-            $this->matchResult->calcForWeeks($weeks);
-            $this->possibleWinners[$this->shadow->getWinner()['team_id']]++;
-        }
-
-        return Team::query()->get()->each(function(Team $team) {
-            $team->chance = $this->toPercentage($this->possibleWinners[$team->id]);
-        });
-    }
-
     private function sliceRank(): array
     {
         return Rank::query()->get()->toArray();

@@ -21,16 +21,17 @@ class DbPersist implements PersistContract
         return Result::query()->whereIn('week', $weeks)->get();
     }
 
-    public function saveRank(array $values)
+    public function saveRank(array $values, bool $isRevert = false)
     {
+        $k = $isRevert ? -1 : 1;
         $ladderRaw = Rank::query()->where('team_id', $values['team_id'])->first();
 
-        $ladderRaw->game_played = $ladderRaw->game_played + $values['game_played'];
-        $ladderRaw->win = $ladderRaw->win + $values['win'];
-        $ladderRaw->loss = $ladderRaw->loss + $values['loss'];
-        $ladderRaw->draw = $ladderRaw->draw + $values['draw'];
-        $ladderRaw->points = $ladderRaw->points + $values['points'];
-        $ladderRaw->goal_diff = $ladderRaw->goal_diff + $values['goal_diff'];
+        $ladderRaw->game_played = $ladderRaw->game_played + $values['game_played'] * $k;
+        $ladderRaw->win = $ladderRaw->win + $values['win'] * $k;
+        $ladderRaw->loss = $ladderRaw->loss + $values['loss'] * $k;
+        $ladderRaw->draw = $ladderRaw->draw + $values['draw'] * $k;
+        $ladderRaw->points = $ladderRaw->points + $values['points'] * $k;
+        $ladderRaw->goal_diff = $ladderRaw->goal_diff + $values['goal_diff'] * $k;
 
         $ladderRaw->save();
     }
