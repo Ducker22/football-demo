@@ -23,8 +23,8 @@ class ShadowRank
 
     public function addGameResult(array $gameResult)
     {
-        Assert::notEmpty($this->cloneRank, 'Rank shadow copy should be set first.');
-        Assert::keyExists($this->cloneRank, $gameResult['team_id'], "There is not {$gameResult['team_id']} team in rank shadow copy.");
+//        Assert::notEmpty($this->cloneRank, 'Rank shadow copy should be set first.');
+//        Assert::keyExists($this->cloneRank, $gameResult['team_id'], "There is not {$gameResult['team_id']} team in rank shadow copy.");
 
         $this->cloneRank[$gameResult['team_id']]['win'] += $gameResult['win'];
         $this->cloneRank[$gameResult['team_id']]['loss'] += $gameResult['loss'];

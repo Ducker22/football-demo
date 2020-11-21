@@ -25,7 +25,7 @@ class ShadowPersister implements PersistContract
 
     public function saveRank(array $values)
     {
-        Assert::notEmpty($this->shadowRank, 'Shadow rank must be set first.');
+//        Assert::notEmpty($this->shadowRank, 'Shadow rank must be set first.');
 
         $this->shadowRank->addGameResult($values);
     }

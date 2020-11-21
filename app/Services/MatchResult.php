@@ -79,8 +79,8 @@ class MatchResult
 
     private function calcResult()
     {
-        Assert::notEmpty($this->teamHome,'Home team must be set.');
-        Assert::notEmpty($this->teamAway,'Away team must be set.');
+//        Assert::notEmpty($this->teamHome,'Home team must be set.');
+//        Assert::notEmpty($this->teamAway,'Away team must be set.');
 
         $calc = $this->generator->generate();
 
@@ -102,7 +102,7 @@ class MatchResult
 
     private function setTeams(int $teamHome, int $teamAway): self
     {
-        Assert::notEq($teamHome, $teamAway, 'Teams must not be equal.');
+//        Assert::notEq($teamHome, $teamAway, 'Teams must not be equal.');
 
         $this->teamHome = $teamHome;
         $this->teamAway = $teamAway;
